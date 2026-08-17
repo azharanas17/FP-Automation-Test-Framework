@@ -47,7 +47,7 @@ public class CartSteps {
     public void theProductShouldBeAddedToTheCartSuccessfully() {
         productsPage.clickCartLink();
         WebDriverWait wait = new WebDriverWait(DriverFactory.getDriver(), Duration.ofSeconds(10));
-        wait.until(ExpectedConditions.visibilityOfElementLocated(org.openqa.selenium.By.id("tbodyid")));
+        wait.until(ExpectedConditions.visibilityOfElementLocated(org.openqa.selenium.By.cssSelector("#tbodyid tr")));
         assertTrue("Cart should contain at least 1 item", cartPage.getCartItemCount() > 0);
     }
 
@@ -55,13 +55,13 @@ public class CartSteps {
     public void theUserNavigatesToTheCartPage() {
         productsPage.clickCartLink();
         WebDriverWait wait = new WebDriverWait(DriverFactory.getDriver(), Duration.ofSeconds(10));
-        wait.until(ExpectedConditions.visibilityOfElementLocated(org.openqa.selenium.By.id("tbodyid")));
+        wait.until(ExpectedConditions.visibilityOfElementLocated(org.openqa.selenium.By.cssSelector("#tbodyid tr")));
     }
 
     @Then("the cart should contain at least {int} item")
     public void theCartShouldContainAtLeastItem(int minCount) {
         WebDriverWait wait = new WebDriverWait(DriverFactory.getDriver(), Duration.ofSeconds(10));
-        wait.until(ExpectedConditions.visibilityOfElementLocated(org.openqa.selenium.By.id("tbodyid")));
+        wait.until(ExpectedConditions.visibilityOfElementLocated(org.openqa.selenium.By.cssSelector("#tbodyid tr")));
         assertTrue("Cart should contain at least " + minCount + " item(s)",
             cartPage.getCartItemCount() >= minCount);
     }

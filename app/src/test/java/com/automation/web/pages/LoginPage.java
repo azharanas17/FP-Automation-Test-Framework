@@ -4,6 +4,8 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
+import java.time.Duration;
 
 public class LoginPage extends BasePage {
 
@@ -18,6 +20,12 @@ public class LoginPage extends BasePage {
 
     @FindBy(id="nameofuser")
     private WebElement loggedInUser;
+
+    @FindBy(id="sign-username")
+    private WebElement signupUsernameField;
+
+    @FindBy(id="sign-password")
+    private WebElement signupPasswordField;
 
     public LoginPage() {
         super();
@@ -70,7 +78,8 @@ public class LoginPage extends BasePage {
 
     public boolean isAlertPresent() {
         try {
-            driver.switchTo().alert();
+            WebDriverWait alertWait = new WebDriverWait(driver, Duration.ofSeconds(10));
+            alertWait.until(ExpectedConditions.alertIsPresent());
             return true;
         } catch (Exception e) {
             return false;
@@ -83,5 +92,34 @@ public class LoginPage extends BasePage {
 
     public void acceptAlert() {
         driver.switchTo().alert().accept();
+    }
+
+    public void clickSignupLink() {
+        wait.until(ExpectedConditions.elementToBeClickable(
+            driver.findElement(org.openqa.selenium.By.id("signin2"))
+        )).click();
+    }
+
+    public void enterSignupUsername(String username) {
+        wait.until(ExpectedConditions.visibilityOf(signupUsernameField)).clear();
+        signupUsernameField.sendKeys(username);
+    }
+
+    public void enterSignupPassword(String password) {
+        wait.until(ExpectedConditions.visibilityOf(signupPasswordField)).clear();
+        signupPasswordField.sendKeys(password);
+    }
+
+    public void clickSignupButton() {
+        wait.until(ExpectedConditions.elementToBeClickable(
+            driver.findElement(org.openqa.selenium.By.xpath("//button[contains(text(),'Sign up')]"))
+        )).click();
+    }
+
+    public void signup(String username, String password) {
+        clickSignupLink();
+        enterSignupUsername(username);
+        enterSignupPassword(password);
+        clickSignupButton();
     }
 }

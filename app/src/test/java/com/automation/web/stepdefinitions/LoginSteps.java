@@ -7,6 +7,9 @@ import io.cucumber.java.Before;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.When;
 import io.cucumber.java.en.Then;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
+import java.time.Duration;
 import static org.junit.Assert.*;
 
 public class LoginSteps {
@@ -46,6 +49,19 @@ public class LoginSteps {
 
     @Then("an alert should appear with message {string}")
     public void anAlertShouldAppearWithMessage(String expectedMessage) {
+        assertTrue("Alert should be present", loginPage.isAlertPresent());
+        String actualMessage = loginPage.getAlertText();
+        assertEquals("Alert message should match", expectedMessage, actualMessage);
+        loginPage.acceptAlert();
+    }
+
+    @When("the user signs up with username {string} and password {string}")
+    public void theUserSignsUpWithUsernameAndPassword(String username, String password) {
+        loginPage.signup(username, password);
+    }
+
+    @Then("the signup alert should appear with message {string}")
+    public void theSignupAlertShouldAppearWithMessage(String expectedMessage) {
         assertTrue("Alert should be present", loginPage.isAlertPresent());
         String actualMessage = loginPage.getAlertText();
         assertEquals("Alert message should match", expectedMessage, actualMessage);
