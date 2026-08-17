@@ -10,6 +10,9 @@ import io.cucumber.java.Before;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.When;
 import io.cucumber.java.en.Then;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
+import java.time.Duration;
 import static org.junit.Assert.*;
 
 public class CartSteps {
@@ -35,22 +38,30 @@ public class CartSteps {
     @When("the user adds the product to cart")
     public void theUserAddsTheProductToCart() {
         productDetailPage.clickAddToCart();
+        WebDriverWait wait = new WebDriverWait(DriverFactory.getDriver(), Duration.ofSeconds(10));
+        wait.until(ExpectedConditions.alertIsPresent());
         DriverFactory.getDriver().switchTo().alert().accept();
     }
 
     @Then("the product should be added to the cart successfully")
     public void theProductShouldBeAddedToTheCartSuccessfully() {
         productsPage.clickCartLink();
+        WebDriverWait wait = new WebDriverWait(DriverFactory.getDriver(), Duration.ofSeconds(10));
+        wait.until(ExpectedConditions.visibilityOfElementLocated(org.openqa.selenium.By.id("tbodyid")));
         assertTrue("Cart should contain at least 1 item", cartPage.getCartItemCount() > 0);
     }
 
     @When("the user navigates to the cart page")
     public void theUserNavigatesToTheCartPage() {
         productsPage.clickCartLink();
+        WebDriverWait wait = new WebDriverWait(DriverFactory.getDriver(), Duration.ofSeconds(10));
+        wait.until(ExpectedConditions.visibilityOfElementLocated(org.openqa.selenium.By.id("tbodyid")));
     }
 
     @Then("the cart should contain at least {int} item")
     public void theCartShouldContainAtLeastItem(int minCount) {
+        WebDriverWait wait = new WebDriverWait(DriverFactory.getDriver(), Duration.ofSeconds(10));
+        wait.until(ExpectedConditions.visibilityOfElementLocated(org.openqa.selenium.By.id("tbodyid")));
         assertTrue("Cart should contain at least " + minCount + " item(s)",
             cartPage.getCartItemCount() >= minCount);
     }
