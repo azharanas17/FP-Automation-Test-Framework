@@ -17,7 +17,7 @@ Feature: Login Functionality on Demoblaze
 
   Scenario: Failed login with invalid credentials
     When the user clicks the login link
-    And the user enters username "invaliduser" and password "wrongpassword"
+    And the user enters username "nonexistent9x7k2m" and password "wrongpassword"
     And the user clicks the login button
     Then an alert should appear with message "User does not exist."
 
