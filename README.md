@@ -43,7 +43,6 @@ automation-test-framework/
 ├── app/
 │   ├── build.gradle                       # Build configuration & dependencies
 │   └── src/
-│       ├── main/java/com/automation/      # Main source (empty)
 │       └── test/
 │           ├── java/com/automation/
 │           │   ├── api/                   # === API TEST PACKAGE ===
@@ -93,11 +92,11 @@ automation-test-framework/
 
 ## Step-by-Step Build Process
 
-Berikut adalah langkah-langkah detail beserta command yang dijalankan dalam pembuatan automation test framework ini:
+Here are the detailed steps and commands executed in building this automation test framework:
 
-### Step 1: Inisialisasi Proyek Gradle
+### Step 1: Initialize Gradle Project
 
-Proyek diinisialisasi menggunakan Gradle dengan template `java-application`:
+The project is initialized using Gradle with the `java-application` template:
 
 ```bash
 gradle init --type java-application --dsl groovy
@@ -112,25 +111,25 @@ Select test framework (default: JUnit Jupiter): [Enter]
 Generate build using new APIs and behavior? (default: no): [Enter]
 ```
 
-**Setelah inisialisasi, verifikasi build awal:**
+**After initialization, verify the initial build:**
 ```bash
 ./gradlew build
 ```
 
-Struktur awal menghasilkan folder `app/` dengan `build.gradle` dan source code standar (termasuk `App.java` dan `AppTest.java`).
+The initial structure creates an `app/` folder with `build.gradle` and standard source code (including `App.java` and `AppTest.java`).
 
-### Step 2: Bersihkan Template Awal
+### Step 2: Clean Initial Template
 
-Hapus file template yang tidak diperlukan:
+Remove unnecessary template files:
 
 ```bash
 rm -rf app/src/main/java/org/example
 rm -rf app/src/test/java/org/example
 ```
 
-### Step 3: Konfigurasi `build.gradle` dengan Semua Dependencies
+### Step 3: Configure `build.gradle` with All Dependencies
 
-File `app/build.gradle` dikonfigurasi ulang (replace seluruh isi file) untuk menambahkan semua library yang dibutuhkan. Kemudian compile untuk memastikan dependency ter-download:
+The `app/build.gradle` file is reconfigured (replace entire file contents) to add all required libraries. Then compile to ensure dependencies are downloaded:
 
 ```bash
 ./gradlew compileTestJava
@@ -138,39 +137,39 @@ File `app/build.gradle` dikonfigurasi ulang (replace seluruh isi file) untuk men
 
 ```groovy
 dependencies {
-    // Cucumber (BDD framework untuk Gherkin)
+    // Cucumber (BDD framework for Gherkin)
     testImplementation 'io.cucumber:cucumber-java:7.15.0'
     testImplementation 'io.cucumber:cucumber-junit:7.15.0'
 
-    // Selenium WebDriver (untuk Web UI testing)
+    // Selenium WebDriver (for Web UI testing)
     testImplementation 'org.seleniumhq.selenium:selenium-java:4.27.0'
     testImplementation 'io.github.bonigarcia:webdrivermanager:5.9.2'
 
-    // REST Assured (untuk API testing)
+    // REST Assured (for API testing)
     testImplementation 'io.rest-assured:rest-assured:5.4.0'
 
-    // JUnit 4 (sebagai test runner)
+    // JUnit 4 (as test runner)
     testImplementation 'junit:junit:4.13.2'
 
-    // Gson (untuk JSON processing)
+    // Gson (for JSON processing)
     testImplementation 'com.google.code.gson:gson:2.10.1'
 }
 ```
 
-**Mengapa memilih JUnit 4?** Karena Cucumber `@RunWith(Cucumber.class)` berjalan lebih stabil dengan JUnit 4 dibandingkan JUnit 5 untuk proyek ini.
+**Why JUnit 4?** Because Cucumber's `@RunWith(Cucumber.class)` runs more stably with JUnit 4 than JUnit 5 for this project.
 
-### Step 4: Membuat Folder/Package Terpisah untuk Web dan API
+### Step 4: Create Separate Folders/Packages for Web and API
 
-Buat semua direktori yang dibutuhkan dalam satu command:
+Create all required directories in one command:
 
 ```bash
-# Package untuk API tests
+# Package for API tests
 mkdir -p app/src/test/java/com/automation/api/clients
 mkdir -p app/src/test/java/com/automation/api/runners
 mkdir -p app/src/test/java/com/automation/api/stepdefinitions
 mkdir -p app/src/test/java/com/automation/api/utils
 
-# Package untuk Web UI tests
+# Package for Web UI tests
 mkdir -p app/src/test/java/com/automation/web/pages
 mkdir -p app/src/test/java/com/automation/web/runners
 mkdir -p app/src/test/java/com/automation/web/stepdefinitions
@@ -184,26 +183,26 @@ mkdir -p app/src/test/resources/features/web
 mkdir -p .github/workflows
 ```
 
-**Hasil struktur:**
+**Resulting structure:**
 ```
 com.automation/
 ├── api/
 │   ├── clients/          -> REST Assured API client
-│   ├── runners/          -> Cucumber runner untuk @api
-│   ├── stepdefinitions/  -> Step definitions untuk API
+│   ├── runners/          -> Cucumber runner for @api
+│   ├── stepdefinitions/  -> Step definitions for API
 │   └── utils/            -> Shared context (ScenarioContext)
 └── web/
     ├── pages/            -> Page Object Model classes
-    ├── runners/          -> Cucumber runner untuk @web
-    ├── stepdefinitions/  -> Step definitions untuk Web
+    ├── runners/          -> Cucumber runner for @web
+    ├── stepdefinitions/  -> Step definitions for Web
     └── utils/            -> WebDriver factory
 ```
 
-### Step 5: Membuat Feature Files dengan Gherkin Format
+### Step 5: Create Feature Files with Gherkin Format
 
-Feature files dibuat di `app/src/test/resources/features/`. Setiap file diawali dengan tag `@api` atau `@web` di awal feature.
+Feature files are created in `app/src/test/resources/features/`. Each file starts with a `@api` or `@web` tag at the beginning of the feature.
 
-**Contoh `api/user.feature`:**
+**Example `api/user.feature`:**
 ```gherkin
 @api
 Feature: User API Operations on DummyAPI
@@ -231,7 +230,7 @@ Feature: User API Operations on DummyAPI
     And the response should contain the created user with firstName "John"
 ```
 
-**Contoh `web/login.feature`:**
+**Example `web/login.feature`:**
 ```gherkin
 @web
 Feature: Login Functionality on Demoblaze
@@ -248,11 +247,11 @@ Feature: Login Functionality on Demoblaze
     Then the user should be logged in successfully
 ```
 
-**Penting:** Setiap feature file harus diawali dengan tag `@api` atau `@web` agar bisa difilter oleh Gradle tasks.
+**Important:** Each feature file must start with a `@api` or `@web` tag so it can be filtered by Gradle tasks.
 
-### Step 6: Implementasi Page Object Model (POM) untuk Web UI
+### Step 6: Implement Page Object Model (POM) for Web UI
 
-Page Object Model digunakan untuk memisahkan locator HTML dari step definitions.
+Page Object Model is used to separate HTML locators from step definitions.
 
 **a. `DriverFactory.java`** - Thread-safe WebDriver management:
 ```java
@@ -280,7 +279,7 @@ public class DriverFactory {
 }
 ```
 
-**b. `BasePage.java`** - Parent class untuk semua page objects:
+**b. `BasePage.java`** - Parent class for all page objects:
 ```java
 public abstract class BasePage {
     protected WebDriver driver;
@@ -293,7 +292,7 @@ public abstract class BasePage {
 }
 ```
 
-**c. Page objects** (`LoginPage`, `ProductsPage`, `CartPage`, dll) menggunakan `@FindBy` annotations untuk locators:
+**c. Page objects** (`LoginPage`, `ProductsPage`, `CartPage`, etc.) use `@FindBy` annotations for locators:
 ```java
 public class LoginPage extends BasePage {
     @FindBy(id="name")
@@ -314,9 +313,9 @@ public class LoginPage extends BasePage {
 }
 ```
 
-### Step 7: Implementasi API Client Pattern
+### Step 7: Implement API Client Pattern
 
-Semua panggilan API REST Assured dikonsolidasi ke dalam satu `ApiClient.java`:
+All REST Assured API calls are consolidated into a single `ApiClient.java`:
 
 ```java
 public class ApiClient {
@@ -348,11 +347,11 @@ public class ApiClient {
 }
 ```
 
-**Authentication** dilakukan via header `app-id` pada setiap request.
+**Authentication** is done via the `app-id` header on every request.
 
-### Step 8: Implementasi Scenario Context untuk Sharing State
+### Step 8: Implement Scenario Context for Sharing State
 
-Dalam Cucumber, setiap step adalah method terpisah. Kita perlu menyimpan response dari step "When" agar bisa diakses di step "Then" berikutnya. `ScenarioContext.java` menggunakan `ThreadLocal`:
+In Cucumber, each step is a separate method. We need to store the response from the "When" step so it can be accessed in the subsequent "Then" step. `ScenarioContext.java` uses `ThreadLocal`:
 
 ```java
 public class ScenarioContext {
@@ -366,9 +365,9 @@ public class ScenarioContext {
 }
 ```
 
-### Step 9: Implementasi Step Definitions
+### Step 9: Implement Step Definitions
 
-a. **API:** Buat `CommonApiSteps.java` untuk step yang dipakai di banyak feature (GET, POST, PUT, DELETE, status code check). Sisanya di `UserSteps.java` dan `TagSteps.java`.
+a. **API:** Create `CommonApiSteps.java` for steps used across multiple features (GET, POST, PUT, DELETE, status code check). The rest go in `UserSteps.java` and `TagSteps.java`.
 
 ```java
 // CommonApiSteps.java - shared steps
@@ -389,16 +388,16 @@ public class CommonApiSteps {
 }
 ```
 
-b. **Web:** Buat `WebHooks.java` untuk shared `@Given("the user is on the Demoblaze homepage")` step. Sisanya di `LoginSteps.java`, `ProductSteps.java`, dan `CartSteps.java`.
+b. **Web:** Create `WebHooks.java` for the shared `@Given("the user is on the Demoblaze homepage")` step. The rest go in `LoginSteps.java`, `ProductSteps.java`, and `CartSteps.java`.
 
-**Verifikasi compilation setelah semua step definitions dibuat:**
+**Verify compilation after all step definitions are created:**
 ```bash
 ./gradlew compileTestJava
 ```
 
-### Step 10: Membuat Cucumber Test Runners
+### Step 10: Create Cucumber Test Runners
 
-Dua runner dibuat untuk memisahkan eksekusi test:
+Two runners are created to separate test execution:
 
 ```java
 // ApiTestRunner.java
@@ -424,9 +423,9 @@ public class ApiTestRunner {}
 public class WebTestRunner {}
 ```
 
-### Step 11: Membuat 2 Gradle Tasks (@api dan @web)
+### Step 11: Create 2 Gradle Tasks (@api and @web)
 
-Dua custom tasks dibuat di `build.gradle` dengan class filtering agar hanya runner yang sesuai yang dijalankan:
+Two custom tasks are created in `build.gradle` with class filtering so only the appropriate runner is executed:
 
 ```groovy
 tasks.register('runApiTests', Test) {
@@ -435,7 +434,7 @@ tasks.register('runApiTests', Test) {
     useJUnit()
     testClassesDirs = sourceSets.test.output.classesDirs
     classpath = sourceSets.test.runtimeClasspath
-    include '**/ApiTestRunner.class'       // HANYA jalankan ApiTestRunner
+    include '**/ApiTestRunner.class'       // ONLY run ApiTestRunner
 
     systemProperty('cucumber.filter.tags', '@api')
     systemProperty('cucumber.glue', 'com.automation.api.stepdefinitions')
@@ -448,7 +447,7 @@ tasks.register('runWebTests', Test) {
     useJUnit()
     testClassesDirs = sourceSets.test.output.classesDirs
     classpath = sourceSets.test.runtimeClasspath
-    include '**/WebTestRunner.class'       // HANYA jalankan WebTestRunner
+    include '**/WebTestRunner.class'       // ONLY run WebTestRunner
 
     systemProperty('cucumber.filter.tags', '@web')
     systemProperty('cucumber.glue', 'com.automation.web.stepdefinitions')
@@ -456,21 +455,21 @@ tasks.register('runWebTests', Test) {
 }
 ```
 
-**Penting:** Tanpa `include '**/ApiTestRunner.class'`, Gradle akan menjalankan SEMUA test classes (termasuk runner lainnya), sehingga tag filter tidak berfungsi dengan benar.
+**Important:** Without `include '**/ApiTestRunner.class'`, Gradle will run ALL test classes (including other runners), so the tag filter will not work correctly.
 
-### Step 12: Jalankan API Tests
+### Step 12: Run API Tests
 
-Jalankan API tests pertama kali untuk menemukan masalah:
+Run API tests for the first time to discover issues:
 
 ```bash
 ./gradlew clean runApiTests
 ```
 
-### Step 13: Konfigurasi Cucumber Reporting (HTML + JSON)
+### Step 13: Configure Cucumber Reporting (HTML + JSON)
 
-Reporting dikonfigurasi di dua tempat:
+Reporting is configured in two places:
 
-**a. Di Cucumber Runner** (`plugin` attribute):
+**a. In Cucumber Runner** (`plugin` attribute):
 ```java
 plugin = {
     "pretty",                                              // console output
@@ -479,7 +478,7 @@ plugin = {
 }
 ```
 
-**b. Di Gradle `test` task** (untuk `./gradlew test`):
+**b. In Gradle `test` task** (for `./gradlew test`):
 ```groovy
 test {
     useJUnit()
@@ -488,30 +487,30 @@ test {
 }
 ```
 
-**Verifikasi report ter-generate:**
+**Verify reports are generated:**
 ```bash
 ./gradlew clean runApiTests
 ls -la app/build/reports/cucumber/
-# Harus ada: api-cucumber.html, api-cucumber.json
+# Should contain: api-cucumber.html, api-cucumber.json
 ```
 
-### Step 14: Membuat GitHub Actions Workflow + GitHub Pages Deployment
+### Step 14: Create GitHub Actions Workflow + GitHub Pages Deployment
 
-Buat file `.github/workflows/test-automation.yml` dengan **3 jobs**: 2 untuk testing dan 1 untuk deploy ke GitHub Pages.
+Create `.github/workflows/test-automation.yml` with **3 jobs**: 2 for testing and 1 for deploying to GitHub Pages.
 
-**Alur kerja:**
+**Workflow:**
 ```
 run-api-tests ──────┐
                      ├──> deploy-reports ──> GitHub Pages
 run-web-tests ──────┘
 ```
 
-**Job 1 & 2** berjalan paralel untuk menjalankan tests. **Job 3** (`deploy-reports`) menunggu keduanya selesai, lalu:
-- Download artifacts dari kedua test jobs
-- Generate `index.html` sebagai landing page
-- Deploy ke GitHub Pages
+**Jobs 1 & 2** run in parallel to execute tests. **Job 3** (`deploy-reports`) waits for both to complete, then:
+- Downloads artifacts from both test jobs
+- Generates `index.html` as the landing page
+- Deploys to GitHub Pages
 
-GitHub Pages selalu men serve `index.html` sebagai halaman utama. Sehingga perlu adanya `index.html` sebagai landing page, agar user bisa memilih mau melihat report API atau Web UI.
+GitHub Pages always serves `index.html` as the main page. Therefore, an `index.html` landing page is needed so users can choose whether to view the API or Web UI report.
 
 ---
 
@@ -581,7 +580,7 @@ GitHub Pages selalu men serve `index.html` sebagai halaman utama. Sehingga perlu
 
 ## Test Reports
 
-Setelah menjalankan tests, reports akan di-generate di:
+After running tests, reports are generated in:
 - **HTML Report**: `app/build/reports/cucumber/`
   - API: `api-cucumber.html`
   - Web: `web-cucumber.html`
@@ -595,7 +594,7 @@ Setelah menjalankan tests, reports akan di-generate di:
 
 ### Workflow Structure
 
-GitHub Actions workflow (`.github/workflows/test-automation.yml`) memiliki **3 jobs**:
+The GitHub Actions workflow (`.github/workflows/test-automation.yml`) has **3 jobs**:
 
 ```
 run-api-tests ──────┐
@@ -603,58 +602,42 @@ run-api-tests ──────┐
 run-web-tests ──────┘
 ```
 
-1. **`run-api-tests`** - Menjalankan API tests, upload report sebagai artifact
-2. **`run-web-tests`** - Menjalankan Web UI tests, upload report sebagai artifact
-3. **`deploy-reports`** - Download kedua reports, generate `index.html`, deploy ke GitHub Pages
+1. **`run-api-tests`** - Runs API tests, uploads report as artifact
+2. **`run-web-tests`** - Runs Web UI tests, uploads report as artifact
+3. **`deploy-reports`** - Downloads both reports, generates `index.html`, deploys to GitHub Pages
 
 ### Trigger
 
-Workflow berjalan pada:
-- **Pull Request** ke branch `main`
+The workflow runs on:
+- **Push** to branch `main`
+- **Pull Request** to branch `main`
 - **Manual trigger** via `workflow_dispatch`
 
 ### Setup GitHub Pages
 
-Agar reports bisa diakses via GitHub Pages, lakukan langkah berikut:
+To make reports accessible via GitHub Pages, follow these steps:
 
-1. Buka repository di GitHub
+1. Open the repository on GitHub
 2. Go to **Settings** > **Pages**
-3. Di bagian **Source**, pilih **GitHub Actions**
-4. Push code atau trigger workflow secara manual
-5. Reports akan tersedia di: `https://<username>.github.io/<repo-name>/`
+3. Under **Source**, select **GitHub Actions**
+4. Push code or trigger the workflow manually
+5. Reports will be available at: `https://azharanas17.github.io/FP-Automation-Test-Framework/`
 
 ### Landing Page (index.html)
 
-Karena GitHub Pages membutuhkan `index.html` sebagai entry point, workflow secara otomatis generate landing page yang berisi link ke kedua reports:
+Since GitHub Pages requires `index.html` as the entry point, the workflow automatically generates a landing page with links to both reports:
 
 ```
 pages/
-├── index.html            # Landing page dengan link ke kedua reports
+├── index.html            # Landing page with links to both reports
 ├── api-cucumber.html     # API test report
 ├── api-cucumber.json     # API test report (JSON)
 ├── web-cucumber.html     # Web UI test report
 └── web-cucumber.json     # Web UI test report (JSON)
 ```
 
-Landing page menampilkan dua kartu:
-- **API Tests** (`@api`) - link ke `api-cucumber.html`
-- **Web UI Tests** (`@web`) - link ke `web-cucumber.html`
+The landing page displays two cards:
+- **API Tests** (`@api`) - link to `api-cucumber.html`
+- **Web UI Tests** (`@web`) - link to `web-cucumber.html`
 
 ---
-
-## Design Patterns
-
-### Page Object Model (POM)
-Setiap halaman web diwakili oleh sebuah class dengan:
-- `@FindBy` annotated WebElement locators
-- Methods yang meng encapsulate page interactions
-- `BasePage` sebagai parent class dengan shared WebDriver dan WebDriverWait
-
-### API Client Pattern
-REST Assured calls dikonsolidasi ke `ApiClient.java` dengan:
-- Pre-configured base URL dan authentication headers
-- Methods GET, POST, PUT, DELETE
-- App-ID dikirim via header (`63a804408eb0cb069b57e43a`)
-
-### Scenario Context Pattern
-`ScenarioContext.java` menggunakan `ThreadLocal` untuk sharing state antar step definitions secara thread-safe.
