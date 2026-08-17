@@ -67,5 +67,6 @@ public class LoginSteps {
         assertTrue("Alert message should be success or user already exists",
             actualMessage.contains("Sign up successful.") || actualMessage.contains("This user already exist."));
         loginPage.acceptAlert();
+        loginPage.closeSignupModal();
     }
 }

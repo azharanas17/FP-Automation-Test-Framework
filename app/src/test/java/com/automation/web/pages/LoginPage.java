@@ -122,4 +122,9 @@ public class LoginPage extends BasePage {
         enterSignupPassword(password);
         clickSignupButton();
     }
+
+    public void closeSignupModal() {
+        driver.findElement(org.openqa.selenium.By.cssSelector("#signInModal .close")).click();
+        wait.until(ExpectedConditions.invisibilityOfElementLocated(org.openqa.selenium.By.id("signInModal")));
+    }
 }
