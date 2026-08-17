@@ -1,0 +1,79 @@
+package com.automation.web.stepdefinitions;
+
+import com.automation.web.pages.CartPage;
+import com.automation.web.pages.CheckoutPage;
+import com.automation.web.pages.ProductDetailPage;
+import com.automation.web.pages.ProductsPage;
+import com.automation.web.utils.DriverFactory;
+import io.cucumber.java.After;
+import io.cucumber.java.Before;
+import io.cucumber.java.en.Given;
+import io.cucumber.java.en.When;
+import io.cucumber.java.en.Then;
+import static org.junit.Assert.*;
+
+public class CartSteps {
+
+    private ProductsPage productsPage;
+    private ProductDetailPage productDetailPage;
+    private CartPage cartPage;
+    private CheckoutPage checkoutPage;
+
+    @Before
+    public void setUp() {
+        productsPage = new ProductsPage();
+        productDetailPage = new ProductDetailPage();
+        cartPage = new CartPage();
+        checkoutPage = new CheckoutPage();
+    }
+
+    @After
+    public void tearDown() {
+        DriverFactory.quitDriver();
+    }
+
+    @When("the user adds the product to cart")
+    public void theUserAddsTheProductToCart() {
+        productDetailPage.clickAddToCart();
+        DriverFactory.getDriver().switchTo().alert().accept();
+    }
+
+    @Then("the product should be added to the cart successfully")
+    public void theProductShouldBeAddedToTheCartSuccessfully() {
+        productsPage.clickCartLink();
+        assertTrue("Cart should contain at least 1 item", cartPage.getCartItemCount() > 0);
+    }
+
+    @When("the user navigates to the cart page")
+    public void theUserNavigatesToTheCartPage() {
+        productsPage.clickCartLink();
+    }
+
+    @Then("the cart should contain at least {int} item")
+    public void theCartShouldContainAtLeastItem(int minCount) {
+        assertTrue("Cart should contain at least " + minCount + " item(s)",
+            cartPage.getCartItemCount() >= minCount);
+    }
+
+    @When("the user clicks place order")
+    public void theUserClicksPlaceOrder() {
+        cartPage.clickPlaceOrder();
+    }
+
+    @When("the user fills checkout form with name {string}, country {string}, city {string}, card {string}, month {string}, year {string}")
+    public void theUserFillsCheckoutForm(String name, String country, String city, String card, String month, String year) {
+        checkoutPage.fillCheckoutForm(name, country, city, card, month, year);
+    }
+
+    @When("the user clicks purchase")
+    public void theUserClicksPurchase() {
+        checkoutPage.clickPurchase();
+    }
+
+    @Then("the confirmation message should be displayed")
+    public void theConfirmationMessageShouldBeDisplayed() {
+        String message = checkoutPage.getConfirmationMessage();
+        assertNotNull("Confirmation message should be displayed", message);
+        assertFalse("Confirmation message should not be empty", message.isEmpty());
+    }
+}
