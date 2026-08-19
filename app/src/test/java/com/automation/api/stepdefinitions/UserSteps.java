@@ -46,4 +46,10 @@ public class UserSteps {
         String actualError = ScenarioContext.getResponse().jsonPath().getString("error");
         assertEquals("Error message should match", expectedError, actualError);
     }
+
+    @Then("the response user firstName should be {string}")
+    public void theResponseUserFirstNameShouldBe(String expectedFirstName) {
+        String actualFirstName = ScenarioContext.getResponse().jsonPath().getString("firstName");
+        assertEquals("User firstName should match", expectedFirstName, actualFirstName);
+    }
 }

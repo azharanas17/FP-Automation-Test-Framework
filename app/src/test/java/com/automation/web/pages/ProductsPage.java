@@ -1,5 +1,6 @@
 package com.automation.web.pages;
 
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
@@ -28,6 +29,12 @@ public class ProductsPage extends BasePage {
 
     @FindBy(id="cartur")
     private WebElement cartLink;
+
+    @FindBy(id="navbarExample")
+    private WebElement navbar;
+
+    @FindBy(css="#navbarExample ul.navbar-nav li a.nav-link")
+    private List<WebElement> categoryLinks;
 
     public ProductsPage() {
         super();
@@ -87,5 +94,25 @@ public class ProductsPage extends BasePage {
             }
         }
         return false;
+    }
+
+    public void clickCategory(String categoryName) {
+        wait.until(ExpectedConditions.visibilityOfAllElements(categoryLinks));
+        for (WebElement link : categoryLinks) {
+            if (link.getText().equalsIgnoreCase(categoryName)) {
+                link.click();
+                wait.until(ExpectedConditions.visibilityOfAllElements(productNames));
+                return;
+            }
+        }
+    }
+
+    public void clickHomeLink() {
+        driver.findElement(By.cssSelector("a.navbar-brand")).click();
+        wait.until(ExpectedConditions.visibilityOfAllElements(productNames));
+    }
+
+    public String getCurrentUrl() {
+        return driver.getCurrentUrl();
     }
 }

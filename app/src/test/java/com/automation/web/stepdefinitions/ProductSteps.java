@@ -61,4 +61,39 @@ public class ProductSteps {
     public void theProductNameShouldBe(String expectedName) {
         assertEquals("Product name should match", expectedName, productDetailPage.getProductName());
     }
+
+    @When("the user clicks on the {string} category")
+    public void theUserClicksOnTheCategory(String categoryName) {
+        productsPage.clickCategory(categoryName);
+    }
+
+    @Then("the product list should show products from {string} category")
+    public void theProductListShouldShowProductsFromCategory(String categoryName) {
+        assertTrue("Product list should not be empty for category: " + categoryName,
+            productsPage.getProductCount() > 0);
+    }
+
+    @When("the user clicks the home link")
+    public void theUserClicksTheHomeLink() {
+        productsPage.clickHomeLink();
+    }
+
+    @Then("the user should be on the homepage")
+    public void theUserShouldBeOnTheHomepage() {
+        String url = productsPage.getCurrentUrl();
+        assertTrue("User should be on homepage", url.equals("https://www.demoblaze.com/") ||
+            url.equals("https://www.demoblaze.com/index.html"));
+    }
+
+    @Then("the product count should be greater than {int}")
+    public void theProductCountShouldBeGreaterThan(int minCount) {
+        assertTrue("Product count should be greater than " + minCount,
+            productsPage.getProductCount() > minCount);
+    }
+
+    @When("the user clicks on the second product")
+    public void theUserClicksOnTheSecondProduct() {
+        assertTrue("Should have at least 2 products", productsPage.getProductCount() >= 2);
+        productsPage.clickViewProduct(1);
+    }
 }

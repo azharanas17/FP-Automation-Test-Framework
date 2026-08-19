@@ -6,6 +6,7 @@ import io.cucumber.java.en.When;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.Given;
 import io.restassured.response.Response;
+import java.util.List;
 import java.util.UUID;
 import static org.junit.Assert.*;
 
@@ -78,5 +79,19 @@ public class CommonApiSteps {
     @Then("the response status code should be {int}")
     public void theResponseStatusCodeShouldBe(int expectedStatusCode) {
         assertEquals("Status code should match", expectedStatusCode, ScenarioContext.getResponse().getStatusCode());
+    }
+
+    @Then("the response should contain {int} or more users")
+    public void theResponseShouldContainOrMoreUsers(int minCount) {
+        List<?> users = ScenarioContext.getResponse().jsonPath().getList("data");
+        assertNotNull("Users list should not be null", users);
+        assertTrue("Should contain at least " + minCount + " users", users.size() >= minCount);
+    }
+
+    @When("I extract the created user ID")
+    public void iExtractTheCreatedUserId() {
+        String id = ScenarioContext.getResponse().jsonPath().getString("id");
+        assertNotNull("Created user ID should not be null", id);
+        ScenarioContext.setUserId(id);
     }
 }

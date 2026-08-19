@@ -61,4 +61,8 @@ public class CartPage extends BasePage {
         wait.until(ExpectedConditions.visibilityOfAllElements(deleteButtons));
         deleteButtons.get(index).click();
     }
+
+    public boolean isCartEmpty() {
+        return cartItems.isEmpty();
+    }
 }

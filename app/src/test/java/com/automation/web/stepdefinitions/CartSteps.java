@@ -87,4 +87,42 @@ public class CartSteps {
         assertNotNull("Confirmation message should be displayed", message);
         assertFalse("Confirmation message should not be empty", message.isEmpty());
     }
+
+    @When("the user adds {int} products to cart")
+    public void theUserAddsProductsToCart(int count) {
+        for (int i = 0; i < count; i++) {
+            productsPage.clickViewProduct(i);
+            productDetailPage.clickAddToCart();
+            WebDriverWait wait = new WebDriverWait(DriverFactory.getDriver(), Duration.ofSeconds(10));
+            wait.until(ExpectedConditions.alertIsPresent());
+            DriverFactory.getDriver().switchTo().alert().accept();
+            productsPage.clickHomeLink();
+        }
+    }
+
+    @Then("the cart should contain {int} items")
+    public void theCartShouldContainItems(int expectedCount) {
+        WebDriverWait wait = new WebDriverWait(DriverFactory.getDriver(), Duration.ofSeconds(10));
+        wait.until(ExpectedConditions.visibilityOfElementLocated(org.openqa.selenium.By.cssSelector("#tbodyid tr")));
+        assertEquals("Cart should contain " + expectedCount + " items", expectedCount, cartPage.getCartItemCount());
+    }
+
+    @Then("the cart total price should be displayed")
+    public void theCartTotalPriceShouldBeDisplayed() {
+        WebDriverWait wait = new WebDriverWait(DriverFactory.getDriver(), Duration.ofSeconds(10));
+        wait.until(ExpectedConditions.visibilityOfElementLocated(org.openqa.selenium.By.cssSelector("#totalp")));
+        String totalPrice = cartPage.getTotalPrice();
+        assertNotNull("Total price should be displayed", totalPrice);
+        assertFalse("Total price should not be empty", totalPrice.isEmpty());
+    }
+
+    @When("the user deletes the first item from the cart")
+    public void theUserDeletesTheFirstItemFromTheCart() {
+        cartPage.deleteCartItem(0);
+    }
+
+    @Then("the cart should be empty")
+    public void theCartShouldBeEmpty() {
+        assertTrue("Cart should be empty", cartPage.isCartEmpty());
+    }
 }
