@@ -10,6 +10,7 @@ Feature: Product Browsing on Demoblaze
   Scenario: Verify products are displayed on homepage
     Then the page title should be "STORE"
     And the product list should not be empty
+    And the product count should be greater than 0
 
   Scenario: View product details
     When the user clicks on the first product
@@ -20,10 +21,6 @@ Feature: Product Browsing on Demoblaze
     When the user clicks on product "Samsung galaxy s6"
     Then the product detail page should be displayed
     And the product name should be "Samsung galaxy s6"
-
-  Scenario: Verify product count on homepage
-    Then the product list should not be empty
-    And the product count should be greater than 0
 
   Scenario: Navigate back to homepage from product detail
     When the user clicks on the first product

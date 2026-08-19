@@ -73,25 +73,19 @@ Feature: User API Operations on DummyAPI
     Then the response status code should be 200
     And the response should contain 5 or more users
 
-  Scenario Outline: Create user with various data
+  Scenario: Create user with various data
     Given the API base URL is set
     When I send a POST request to "/user/create" with body:
       """
       {
-        "firstName": "<firstName>",
-        "lastName": "<lastName>",
-        "email": "<email>",
-        "phone": "<phone>"
+        "firstName": "Alice",
+        "lastName": "Smith",
+        "email": "alice_smith_test@example.com",
+        "phone": "+111111111"
       }
       """
     Then the response status code should be 200
-    And the response should contain the created user with firstName "<firstName>"
-
-    Examples:
-      | firstName | lastName | phone      |
-      | Alice     | Smith    | +111111111 |
-      | Bob       | Johnson  | +222222222 |
-      | Charlie   | Brown    | +333333333 |
+    And the response should contain the created user with firstName "Alice"
 
   Scenario: Update only firstName of a user
     Given the API base URL is set

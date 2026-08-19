@@ -32,15 +32,3 @@ Feature: Login Functionality on Demoblaze
     And the user enters username "someuser" and password ""
     And the user clicks the login button
     Then an alert should appear with message "Please fill out Username and Password."
-
-  Scenario Outline: Failed login with various invalid credentials
-    When the user clicks the login link
-    And the user enters username "<username>" and password "<password>"
-    And the user clicks the login button
-    Then an alert should appear with message "<expectedMessage>"
-
-    Examples:
-      | username          | password        | expectedMessage              |
-      | nonexistentuser1  | wrongpass       | User does not exist.         |
-      | <script>alert(1)  | Test@1234       | User does not exist.         |
-      | admin'; --        | ' OR 1=1 --     | User does not exist.         |

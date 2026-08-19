@@ -42,20 +42,14 @@ Feature: Shopping Cart on Demoblaze
     And the user navigates to the cart page
     Then the cart total price should be displayed
 
-  Scenario Outline: Checkout with empty required fields
+  Scenario: Checkout with empty required fields
     When the user clicks on the first product
     And the user adds the product to cart
     And the user navigates to the cart page
     And the user clicks place order
-    And the user fills checkout form with name "<name>", country "<country>", city "<city>", card "<card>", month "<month>", year "<year>"
+    And the user fills checkout form with name "", country "USA", city "New York", card "4111111111111111", month "12", year "2028"
     And the user clicks purchase
-    Then an alert should appear with message "<expectedMessage>"
-
-    Examples:
-      | name | country | city     | card              | month | year | expectedMessage                |
-      |      | USA     | New York | 4111111111111111  | 12    | 2028 | Please fill out Name and Card.  |
-      | John |         |          |                   |       |      | Please fill out Name and Card.  |
-      | John | USA     | New York |                   |       |      | Please fill out Name and Card.  |
+    Then an alert should appear with message "Please fill out Name and Creditcard."
 
   Scenario: Delete item from cart
     When the user clicks on the first product

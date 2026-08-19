@@ -23,7 +23,7 @@ public class CartPage extends BasePage {
     @FindBy(css=".btn-success")
     private WebElement placeOrderButton;
 
-    @FindBy(css=".btn-danger")
+    @FindBy(css="#tbodyid tr td:last-child a")
     private List<WebElement> deleteButtons;
 
     public CartPage() {

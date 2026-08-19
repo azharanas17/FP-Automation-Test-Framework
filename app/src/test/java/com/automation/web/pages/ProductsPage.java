@@ -18,22 +18,13 @@ public class ProductsPage extends BasePage {
     @FindBy(css=".card .card-block .price")
     private List<WebElement> productPriceElements;
 
-    @FindBy(css=".card a.btn.btn-default")
+    @FindBy(css=".card-title a.hrefch")
     private List<WebElement> viewProductButtons;
-
-    @FindBy(css="#navbarExample a.nav-link")
-    private List<WebElement> navLinks;
-
-    @FindBy(css=".carousel-inner .active")
-    private WebElement activeCarousel;
 
     @FindBy(id="cartur")
     private WebElement cartLink;
 
-    @FindBy(id="navbarExample")
-    private WebElement navbar;
-
-    @FindBy(css="#navbarExample ul.navbar-nav li a.nav-link")
+    @FindBy(css=".list-group-item#itemc")
     private List<WebElement> categoryLinks;
 
     public ProductsPage() {
@@ -99,7 +90,8 @@ public class ProductsPage extends BasePage {
     public void clickCategory(String categoryName) {
         wait.until(ExpectedConditions.visibilityOfAllElements(categoryLinks));
         for (WebElement link : categoryLinks) {
-            if (link.getText().equalsIgnoreCase(categoryName)) {
+            String text = link.getText().trim();
+            if (text.equalsIgnoreCase(categoryName)) {
                 link.click();
                 wait.until(ExpectedConditions.visibilityOfAllElements(productNames));
                 return;

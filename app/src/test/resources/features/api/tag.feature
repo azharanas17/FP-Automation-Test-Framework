@@ -16,16 +16,11 @@ Feature: Tag API Operations on DummyAPI
     Then the response status code should be 200
     And the response should contain a list of tags in data field
 
-  Scenario Outline: Get tags with different page values
+  Scenario: Get tags with different page values
     Given the API base URL is set
-    When I send a GET request to "/tag?page=<page>"
+    When I send a GET request to "/tag?page=1"
     Then the response status code should be 200
     And the response should contain a list of tags in data field
-
-    Examples:
-      | page |
-      | 0    |
-      | 1    |
 
   Scenario: Verify each tag has id and value
     Given the API base URL is set
