@@ -124,7 +124,8 @@ public class LoginPage extends BasePage {
     }
 
     public void closeSignupModal() {
-        driver.findElement(org.openqa.selenium.By.cssSelector("#signInModal .close")).click();
-        wait.until(ExpectedConditions.invisibilityOfElementLocated(org.openqa.selenium.By.id("signInModal")));
+        ((org.openqa.selenium.JavascriptExecutor) driver).executeScript(
+            "$('#signInModal').modal('hide'); $('.modal-backdrop').hide();"
+        );
     }
 }
