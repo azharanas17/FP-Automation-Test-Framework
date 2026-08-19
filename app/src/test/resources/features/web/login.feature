@@ -8,10 +8,10 @@ Feature: Login Functionality on Demoblaze
     Given the user is on the Demoblaze homepage
 
   Scenario: Successful login with valid credentials
-    When the user signs up with username "testuser123" and password "Test@1234"
+    When the user signs up with username "testuser123asdsd" and password "Test@1234"
     Then the signup alert should appear with message "Sign up successful."
     When the user clicks the login link
-    And the user enters username "testuser123" and password "Test@1234"
+    And the user enters username "testuser123asdsd" and password "Test@1234"
     And the user clicks the login button
     Then the user should be logged in successfully
 
