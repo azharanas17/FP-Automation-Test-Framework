@@ -58,8 +58,10 @@ public class CartPage extends BasePage {
     }
 
     public void deleteCartItem(int index) {
+        int sizeBefore = cartItems.size();
         wait.until(ExpectedConditions.visibilityOfAllElements(deleteButtons));
         deleteButtons.get(index).click();
+        wait.until(driver -> cartItems.size() < sizeBefore);
     }
 
     public boolean isCartEmpty() {
