@@ -74,12 +74,13 @@ public class ProductsPage extends BasePage {
     }
 
     public int getProductCount() {
-        wait.until(ExpectedConditions.visibilityOfAllElements(productNames));
-        return productNames.size();
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector(".card-title a")));
+        return driver.findElements(By.cssSelector(".card-title a")).size();
     }
 
     public boolean isProductDisplayed(String productName) {
-        for (WebElement product : productNames) {
+        java.util.List<WebElement> products = driver.findElements(By.cssSelector(".card-title a"));
+        for (WebElement product : products) {
             if (product.getText().equalsIgnoreCase(productName)) {
                 return true;
             }
@@ -88,12 +89,13 @@ public class ProductsPage extends BasePage {
     }
 
     public void clickCategory(String categoryName) {
-        wait.until(ExpectedConditions.visibilityOfAllElements(categoryLinks));
-        for (WebElement link : categoryLinks) {
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector(".list-group-item#itemc")));
+        java.util.List<WebElement> links = driver.findElements(By.cssSelector(".list-group-item#itemc"));
+        for (WebElement link : links) {
             String text = link.getText().trim();
             if (text.equalsIgnoreCase(categoryName)) {
                 link.click();
-                wait.until(ExpectedConditions.visibilityOfAllElements(productNames));
+                wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector(".card-title a")));
                 return;
             }
         }
